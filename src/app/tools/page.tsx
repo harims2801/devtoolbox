@@ -106,6 +106,7 @@ export default async function ToolsPage({
     <main className="py-10 sm:py-12">
       <SectionHeader
         description="A growing collection of focused utilities designed for fast, private technical work. Tool implementations are being released incrementally."
+        headingLevel={1}
         title={selectedCategory?.name ?? "All developer tools"}
       />
 

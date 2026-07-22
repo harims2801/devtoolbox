@@ -5,7 +5,9 @@ test("mobile navigation and theme selector are usable", async ({ page }) => {
   await page.goto("/");
 
   await page.getByRole("button", { name: "Open navigation" }).click();
-  await expect(page.getByRole("dialog", { name: "Navigation" })).toBeVisible();
+  await expect(
+    page.getByText("Browse DevToolbox pages and tool categories."),
+  ).toBeVisible();
 
   await page.getByLabel("Color theme").selectOption("dark");
   await expect(page.locator("html")).toHaveClass(/dark/);
