@@ -5,11 +5,13 @@ test("mobile navigation and theme selector are usable", async ({ page }) => {
   await page.goto("/");
 
   await page.getByRole("button", { name: "Open navigation" }).click();
+  const navigation = page.getByRole("dialog", { name: "Navigation" });
+
   await expect(
-    page.getByText("Browse DevToolbox pages and tool categories."),
+    navigation.getByText("Browse DevToolbox pages and tool categories."),
   ).toBeVisible();
 
-  await page.getByLabel("Color theme").selectOption("dark");
+  await navigation.getByLabel("Color theme").selectOption("dark");
   await expect(page.locator("html")).toHaveClass(/dark/);
 });
 
