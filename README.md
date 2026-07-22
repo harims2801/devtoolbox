@@ -51,6 +51,9 @@ pnpm dev
 Open [http://localhost:3000](http://localhost:3000). The health endpoint is available at
 [http://localhost:3000/api/health](http://localhost:3000/api/health).
 
+For complete Windows, macOS, production-mode, and phone-testing instructions, see
+[Run and test DevToolbox locally](docs/LOCAL_SETUP.md).
+
 ## Validation
 
 ```bash
