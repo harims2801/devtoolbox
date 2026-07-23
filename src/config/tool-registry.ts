@@ -234,6 +234,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: '{"service":"api","healthy":true}',
     input: ["json", "file"],
     output: ["json", "file"],
+    availability: "available",
     isPopular: true,
     isFeatured: true,
     popularityRank: 1,
