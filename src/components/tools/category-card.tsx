@@ -1,23 +1,21 @@
 import Link from "next/link";
-import { ArrowRight, type LucideIcon } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+
+import type { ToolCategoryDefinition } from "@/config/tool-registry";
 
 export function CategoryCard({
-  name,
-  description,
-  icon: Icon,
-  href,
+  category,
   toolCount,
 }: {
-  name: string;
-  description: string;
-  icon: LucideIcon;
-  href: string;
+  category: ToolCategoryDefinition;
   toolCount?: number;
 }) {
+  const { description, icon: Icon, name, slug } = category;
+
   return (
     <Link
       className="group bg-card hover:border-foreground/20 flex items-start gap-4 rounded-xl border p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md"
-      href={href}
+      href={`/tools/category/${slug}`}
     >
       <div className="bg-muted/50 rounded-lg border p-2.5">
         <Icon aria-hidden="true" className="size-5" />

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, Braces, LockKeyhole, Zap } from "lucide-react";
 
+import { ToolSection } from "@/components/tools/tool-section";
 import { Button } from "@/components/ui/button";
+import { getFeaturedTools } from "@/config/tool-registry";
 
 const principles = [
   {
@@ -52,6 +54,15 @@ export default function Home() {
             </Button>
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pt-16 sm:px-6 lg:px-8">
+        <ToolSection
+          description="A focused starting set selected from the central tool registry."
+          id="featured-tools-heading"
+          title="Featured tools"
+          tools={getFeaturedTools(3)}
+        />
       </section>
 
       <section
