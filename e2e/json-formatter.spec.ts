@@ -7,7 +7,7 @@ test("formats, sorts, searches, and downloads JSON locally", async ({
 
   const input = page.getByRole("textbox", { name: "JSON input" });
   await input.fill('{"z":1,"a":{"message":"hello"},"items":[3,1,2]}');
-  await page.getByRole("button", { name: "Format" }).click();
+  await page.getByRole("button", { name: "Format", exact: true }).click();
 
   const output = page.getByTestId("json-output");
   await expect(output).toContainText('"message": "hello"');
@@ -35,7 +35,7 @@ test("reports invalid JSON with an approximate line and column", async ({
   await page
     .getByRole("textbox", { name: "JSON input" })
     .fill('{\n  "valid": true,\n  broken\n}');
-  await page.getByRole("button", { name: "Format" }).click();
+  await page.getByRole("button", { name: "Format", exact: true }).click();
 
   await expect(page.getByRole("alert")).toContainText(/line \d+, column \d+/);
   await expect(page.getByText(/Problem near line/)).toBeVisible();
@@ -52,7 +52,7 @@ test("opens and formats a local JSON file", async ({ page }) => {
       buffer: Buffer.from('{"source":"local-file","enabled":true}'),
     });
 
-  await page.getByRole("button", { name: "Format" }).click();
+  await page.getByRole("button", { name: "Format", exact: true }).click();
   await expect(page.getByTestId("json-output")).toContainText(
     '"source": "local-file"',
   );
