@@ -1,6 +1,8 @@
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { PrivacyBadge } from "@/components/shared/privacy-badge";
+import { RelatedTools } from "@/components/tools/related-tools";
 import { ResponsiveWorkspace } from "@/components/tools/responsive-workspace";
+import { getCategoryById, type ToolDefinition } from "@/config/tool-registry";
 
 export interface ToolExample {
   title: string;
@@ -29,6 +31,18 @@ export interface ToolLayoutProps {
   relatedTools?: React.ReactNode;
   seoContent?: React.ReactNode;
 }
+
+export type RegisteredToolLayoutProps = Omit<
+  ToolLayoutProps,
+  | "title"
+  | "description"
+  | "category"
+  | "categoryHref"
+  | "privacyLabel"
+  | "relatedTools"
+> & {
+  tool: ToolDefinition;
+};
 
 export function ToolLayout({
   title,
@@ -164,5 +178,24 @@ export function ToolLayout({
         ) : null}
       </div>
     </main>
+  );
+}
+
+export function RegisteredToolLayout({
+  tool,
+  ...workspace
+}: RegisteredToolLayoutProps) {
+  const category = getCategoryById(tool.category);
+
+  return (
+    <ToolLayout
+      {...workspace}
+      category={category?.name ?? "Developer tools"}
+      categoryHref={category ? `/tools/category/${category.slug}` : "/tools"}
+      description={tool.longDescription}
+      privacyLabel={tool.privacyLabel}
+      relatedTools={<RelatedTools tool={tool} />}
+      title={tool.name}
+    />
   );
 }

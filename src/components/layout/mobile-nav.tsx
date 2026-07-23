@@ -6,7 +6,8 @@ import { Menu, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { ThemeSelector } from "@/components/shared/theme-selector";
-import { mainNavigation, toolCategories } from "@/config/navigation";
+import { mainNavigation } from "@/config/navigation";
+import { toolCategories } from "@/config/tool-registry";
 
 export function MobileNav() {
   return (
@@ -59,11 +60,11 @@ export function MobileNav() {
             aria-label="Tool categories"
             className="mt-2 flex flex-col gap-1 overflow-y-auto"
           >
-            {toolCategories.map(({ id, name, icon: Icon }) => (
+            {toolCategories.map(({ id, name, slug, icon: Icon }) => (
               <Dialog.Close asChild key={id}>
                 <Link
                   className="text-muted-foreground hover:bg-accent hover:text-foreground flex items-center gap-2 rounded-md px-3 py-2 text-sm"
-                  href={`/tools?category=${id}`}
+                  href={`/tools/category/${slug}`}
                 >
                   <Icon aria-hidden="true" className="size-4" />
                   {name}

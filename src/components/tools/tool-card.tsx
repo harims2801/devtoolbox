@@ -1,28 +1,31 @@
 import Link from "next/link";
-import { ArrowUpRight, type LucideIcon } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 import { PrivacyBadge } from "@/components/shared/privacy-badge";
+import type { ToolDefinition } from "@/config/tool-registry";
 import { cn } from "@/lib/utils";
 
 export interface ToolCardProps {
-  name: string;
-  description: string;
-  category: string;
-  icon: LucideIcon;
-  href?: string;
-  isNew?: boolean;
-  processingLabel?: string;
+  tool: ToolDefinition;
+  categoryName: string;
+  compact?: boolean;
 }
 
 export function ToolCard({
-  name,
-  description,
-  category,
-  icon: Icon,
-  href,
-  isNew = false,
-  processingLabel,
+  tool,
+  categoryName,
+  compact = false,
 }: ToolCardProps) {
+  const {
+    availability,
+    description,
+    icon: Icon,
+    isNew,
+    name,
+    privacyLabel,
+    route,
+  } = tool;
+  const href = availability === "available" ? route : undefined;
   const content = (
     <>
       <div className="flex items-start justify-between gap-3">
@@ -46,24 +49,28 @@ export function ToolCard({
           ) : null}
         </div>
         <p className="text-muted-foreground mt-1 text-xs font-medium">
-          {category}
+          {categoryName}
         </p>
         <p className="text-muted-foreground mt-3 text-sm leading-6">
           {description}
         </p>
       </div>
       <div className="mt-auto pt-5">
-        {processingLabel ? (
-          <PrivacyBadge label={processingLabel} />
-        ) : (
-          <span className="text-muted-foreground text-xs">Coming soon</span>
-        )}
+        <div className="flex flex-wrap items-center gap-2">
+          <PrivacyBadge label={privacyLabel} />
+          {!href ? (
+            <span className="text-muted-foreground rounded-full border px-2 py-1 text-xs">
+              Coming soon
+            </span>
+          ) : null}
+        </div>
       </div>
     </>
   );
 
   const classes = cn(
-    "group flex min-h-64 flex-col rounded-xl border bg-card p-5 text-card-foreground shadow-xs transition-all",
+    "group flex flex-col rounded-xl border bg-card p-5 text-card-foreground shadow-xs transition-all",
+    compact ? "min-h-56" : "min-h-64",
     href && "hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-md",
   );
 
