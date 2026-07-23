@@ -37,7 +37,9 @@ test("reports invalid JSON with an approximate line and column", async ({
     .fill('{\n  "valid": true,\n  broken\n}');
   await page.getByRole("button", { name: "Format", exact: true }).click();
 
-  await expect(page.getByRole("alert")).toContainText(/line \d+, column \d+/);
+  await expect(page.locator('p[role="alert"]')).toContainText(
+    /line \d+, column \d+/,
+  );
   await expect(page.getByText(/Problem near line/)).toBeVisible();
 });
 
