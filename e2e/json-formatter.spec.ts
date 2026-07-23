@@ -37,10 +37,10 @@ test("reports invalid JSON with an approximate line and column", async ({
     .fill('{\n  "valid": true,\n  broken\n}');
   await page.getByRole("button", { name: "Format", exact: true }).click();
 
-  await expect(page.locator('p[role="alert"]')).toContainText(
+  await expect(page.locator('p[role="alert"]').first()).toContainText(
     /line \d+, column \d+/,
   );
-  await expect(page.getByText(/Problem near line/)).toBeVisible();
+  await expect(page.getByText(/Problem near line/).first()).toBeVisible();
 });
 
 test("opens and formats a local JSON file", async ({ page }) => {
