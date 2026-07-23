@@ -14,7 +14,7 @@ test("formats multi-document YAML and converts it to JSON", async ({
     .click();
   await expect(page.getByTestId("yaml-output")).toContainText("enabled: true");
 
-  await page.getByRole("button", { name: "Convert" }).click();
+  await page.getByRole("button", { name: "Convert", exact: true }).click();
   await expect(page.getByTestId("yaml-output")).toContainText('"service"');
   await expect(page.getByText("Documents").first()).toBeVisible();
 });
@@ -27,7 +27,7 @@ test("converts JSON to YAML, sorts keys, and renders a tree", async ({
     .getByRole("textbox", { name: "YAML or JSON input" })
     .fill('{"z":1,"a":{"enabled":true}}');
   await page.getByLabel("Input format").selectOption("json");
-  await page.getByRole("button", { name: "Convert" }).click();
+  await page.getByRole("button", { name: "Convert", exact: true }).click();
 
   await expect(page.getByTestId("yaml-output")).toContainText("enabled: true");
   await page.getByRole("button", { name: "Sort Keys" }).click();
