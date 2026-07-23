@@ -253,6 +253,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "service:\n  port: 3000",
     input: ["yaml", "json", "file"],
     output: ["yaml", "json", "file"],
+    availability: "available",
     isPopular: true,
     isFeatured: true,
     popularityRank: 4,
