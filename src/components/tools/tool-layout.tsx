@@ -1,5 +1,7 @@
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { PrivacyBadge } from "@/components/shared/privacy-badge";
+import { FavoriteButton } from "@/components/tools/favorite-button";
+import { RecentToolTracker } from "@/components/tools/recent-tool-tracker";
 import { RelatedTools } from "@/components/tools/related-tools";
 import { ResponsiveWorkspace } from "@/components/tools/responsive-workspace";
 import { getCategoryById, type ToolDefinition } from "@/config/tool-registry";
@@ -183,19 +185,29 @@ export function ToolLayout({
 
 export function RegisteredToolLayout({
   tool,
+  toolbar,
   ...workspace
 }: RegisteredToolLayoutProps) {
   const category = getCategoryById(tool.category);
 
   return (
-    <ToolLayout
-      {...workspace}
-      category={category?.name ?? "Developer tools"}
-      categoryHref={category ? `/tools/category/${category.slug}` : "/tools"}
-      description={tool.longDescription}
-      privacyLabel={tool.privacyLabel}
-      relatedTools={<RelatedTools tool={tool} />}
-      title={tool.name}
-    />
+    <>
+      <RecentToolTracker toolId={tool.id} />
+      <ToolLayout
+        {...workspace}
+        category={category?.name ?? "Developer tools"}
+        categoryHref={category ? `/tools/category/${category.slug}` : "/tools"}
+        description={tool.longDescription}
+        privacyLabel={tool.privacyLabel}
+        relatedTools={<RelatedTools tool={tool} />}
+        title={tool.name}
+        toolbar={
+          <>
+            <FavoriteButton showLabel toolId={tool.id} toolName={tool.name} />
+            {toolbar}
+          </>
+        }
+      />
+    </>
   );
 }

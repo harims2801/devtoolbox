@@ -48,3 +48,43 @@ test("tool filters support processing type and empty results", async ({
   await expect(page).toHaveURL(/\/tools$/);
   await expect(page.getByText("41 tools found")).toBeVisible();
 });
+
+test("command palette opens a tool and remembers it", async ({ page }) => {
+  await page.goto("/");
+  await page.keyboard.press("Control+k");
+  await page
+    .getByPlaceholder("Search tools, descriptions, or keywords...")
+    .fill("json formatter");
+  await page.keyboard.press("Enter");
+
+  await expect(page).toHaveURL(/\/tools\/json-formatter$/);
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: "JSON Formatter and Validator",
+    }),
+  ).toBeVisible();
+
+  await page.keyboard.press("Control+k");
+  await expect(
+    page.getByRole("heading", { name: "Recent tools" }),
+  ).toBeVisible();
+});
+
+test("favorites persist on the saved tools page", async ({ page }) => {
+  await page.goto("/tools");
+  await page
+    .getByRole("button", {
+      name: "Add JSON Formatter and Validator to favorites",
+    })
+    .first()
+    .click();
+  await page.goto("/favorites");
+
+  await expect(
+    page.getByRole("heading", {
+      level: 3,
+      name: "JSON Formatter and Validator",
+    }),
+  ).toBeVisible();
+});
