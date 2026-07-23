@@ -25,12 +25,14 @@ describe("registry-driven tool components", () => {
     );
   });
 
-  it("renders planned related tools without broken links", () => {
+  it("renders planned related tools through their placeholder routes", () => {
     expect(tool).toBeDefined();
     render(<RelatedTools tool={tool!} />);
 
     expect(screen.getByText("YAML Converter")).toBeInTheDocument();
     expect(screen.getAllByText("Coming soon")).not.toHaveLength(0);
-    expect(screen.queryByRole("link", { name: "YAML Converter" })).toBeNull();
+    expect(
+      screen.getByRole("link", { name: /YAML Converter/ }),
+    ).toHaveAttribute("href", "/tools/yaml-formatter");
   });
 });
