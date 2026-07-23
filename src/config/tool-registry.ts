@@ -313,6 +313,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "Hello, DevToolbox!",
     input: ["text", "file"],
     output: ["text", "file"],
+    availability: "available",
     isPopular: true,
     isFeatured: true,
     popularityRank: 3,
