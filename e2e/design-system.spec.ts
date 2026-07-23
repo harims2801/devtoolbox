@@ -22,14 +22,29 @@ test("desktop category navigation filters planned tools", async ({ page }) => {
     .getByRole("link", { name: /formatting & validation/i })
     .first()
     .click();
-  await expect(page).toHaveURL(/category=formatting-validation/);
+  await expect(page).toHaveURL(/\/tools\/category\/formatting-validation$/);
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Formatting & Validation" }),
+  ).toBeVisible();
   await expect(
     page.getByRole("heading", {
-      level: 2,
-      name: "Formatting & Validation tools",
+      level: 3,
+      name: "JSON Formatter and Validator",
     }),
   ).toBeVisible();
+});
+
+test("tool filters support processing type and empty results", async ({
+  page,
+}) => {
+  await page.goto(
+    "/tools?category=formatting-validation&processing=server-assisted",
+  );
+
   await expect(
-    page.getByRole("heading", { level: 3, name: "JSON Formatter" }),
+    page.getByRole("heading", { name: "No tools match these filters" }),
   ).toBeVisible();
+  await page.getByRole("link", { name: "Clear" }).click();
+  await expect(page).toHaveURL(/\/tools$/);
+  await expect(page.getByText("41 tools found")).toBeVisible();
 });
