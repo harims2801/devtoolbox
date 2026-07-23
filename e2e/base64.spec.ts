@@ -43,8 +43,8 @@ test("encodes a local image and offers safe metadata and download", async ({
       buffer: Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
     });
 
-  await expect(page.getByText("pixel.png")).toBeVisible();
-  await expect(page.getByText("image/png")).toBeVisible();
+  await expect(page.getByText("pixel.png", { exact: true })).toBeVisible();
+  await expect(page.getByText("image/png", { exact: true })).toBeVisible();
   await expect(page.getByTestId("file-base64")).toContainText("iVBORw0KGgo=");
   await expect(page.getByAltText("Preview of pixel.png")).toBeVisible();
   await expect(
