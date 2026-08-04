@@ -251,7 +251,10 @@ export function TimestampConverterTool() {
               key={key}
             >
               <dt className="text-muted-foreground text-sm">{label}</dt>
-              <dd className="min-w-0 font-mono text-sm break-all">
+              <dd
+                className="min-w-0 font-mono text-sm break-all"
+                data-testid={`timestamp-${key}`}
+              >
                 {outputs[key]}
               </dd>
               <CopyButton label={`Copy ${label}`} text={outputs[key]} />
