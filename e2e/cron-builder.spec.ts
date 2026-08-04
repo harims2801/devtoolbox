@@ -16,7 +16,7 @@ test("rejects invalid fields and loads presets", async ({ page }) => {
   await page.goto("/tools/cron-builder");
   await page.locator("#cron-expression:visible").fill("60 * * * *");
   await page.getByRole("button", { name: "Validate and explain" }).click();
-  await expect(page.locator('[role="alert"]:visible')).toContainText(
+  await expect(page.locator("#cron-error:visible")).toContainText(
     "between 0 and 59",
   );
   await page.getByRole("button", { name: "Monthly" }).click();
