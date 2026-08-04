@@ -41,9 +41,6 @@ export type StructuredParseResult =
     }
   | { ok: false; error: StructuredParseError };
 
-const unsafeTagPattern =
-  /(?:^|[\s,[{])!(?:<|[^!\s,[{][^\s,[{]*|!(?:js|javascript|python|ruby)\/)/im;
-
 function errorAt(
   input: string,
   message: string,
@@ -171,16 +168,6 @@ export function getStructuredSizeState(input: string) {
 }
 
 function parseYamlDocuments(input: string): StructuredParseResult {
-  if (unsafeTagPattern.test(input)) {
-    return {
-      ok: false,
-      error: errorAt(
-        input,
-        "Custom and code-execution-capable YAML tags are not allowed",
-      ),
-    };
-  }
-
   let parsedDocuments: Document.Parsed<ParsedNode>[];
   try {
     parsedDocuments = parseAllDocuments(input, {

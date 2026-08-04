@@ -91,6 +91,16 @@ service:
     expect(result.error.line).toBeGreaterThan(0);
   });
 
+  it("allows tag-like text inside quoted strings and comments", () => {
+    const result = parseStructuredInput(
+      'message: "hello !world"\n# keep !notes as plain comment',
+      "yaml",
+    );
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.documents[0]).toEqual({ message: "hello !world" });
+  });
+
   it("rejects unsafe custom tags", () => {
     const result = parseStructuredInput(
       "handler: !!js/function 'function () { return 1 }'",
