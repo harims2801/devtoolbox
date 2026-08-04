@@ -41,6 +41,9 @@ describe("Base64 utilities", () => {
     expect(decodeBase64ToUtf8("SGVsbG8")).toBe("Hello");
     expect(() => decodeBase64ToUtf8("not@base64")).toThrow(/not valid/i);
     expect(() => decodeBase64ToUtf8("a")).toThrow(/invalid length/i);
+    expect(() => decodeBase64ToUtf8("SGVsbG8==")).toThrow(/invalid.*padding/i);
+    expect(() => decodeBase64ToUtf8("TQ=")).toThrow(/invalid.*padding/i);
+    expect(() => decodeBase64ToUtf8("AAAA==")).toThrow(/invalid.*padding/i);
   });
 
   it("round-trips binary files without text conversion", () => {

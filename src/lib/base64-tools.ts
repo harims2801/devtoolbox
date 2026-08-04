@@ -61,8 +61,16 @@ function normalizeBase64(value: string, variant: Base64Variant) {
   }
 
   const withoutPadding = compact.replace(/=+$/, "");
-  if (withoutPadding.length % 4 === 1) {
-    throw new Error("Base64 input has an invalid length.");
+  const remainder = withoutPadding.length % 4;
+  const paddingLength = compact.length - withoutPadding.length;
+  const expectedPadding = remainder === 0 ? 0 : 4 - remainder;
+
+  if (
+    remainder === 1 ||
+    (paddingLength > 0 &&
+      (compact.length % 4 !== 0 || paddingLength !== expectedPadding))
+  ) {
+    throw new Error("Base64 input has invalid length or padding.");
   }
 
   const standard =
