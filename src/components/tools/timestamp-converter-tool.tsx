@@ -51,10 +51,13 @@ export function TimestampConverterTool() {
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    setLiveNow(new Date());
-    if (paused) return;
+    const refresh = window.setTimeout(() => setLiveNow(new Date()), 0);
+    if (paused) return () => window.clearTimeout(refresh);
     const interval = window.setInterval(() => setLiveNow(new Date()), 1000);
-    return () => window.clearInterval(interval);
+    return () => {
+      window.clearTimeout(refresh);
+      window.clearInterval(interval);
+    };
   }, [paused]);
 
   const outputs = useMemo(
