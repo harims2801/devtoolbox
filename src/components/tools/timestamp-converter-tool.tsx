@@ -47,10 +47,11 @@ export function TimestampConverterTool() {
   const [resultDate, setResultDate] = useState<Date>();
   const [detectedUnit, setDetectedUnit] = useState("");
   const [error, setError] = useState("");
-  const [liveNow, setLiveNow] = useState(() => new Date());
+  const [liveNow, setLiveNow] = useState(() => new Date(0));
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
+    setLiveNow(new Date());
     if (paused) return;
     const interval = window.setInterval(() => setLiveNow(new Date()), 1000);
     return () => window.clearInterval(interval);

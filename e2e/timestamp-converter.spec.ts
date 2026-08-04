@@ -18,7 +18,9 @@ test("auto-detects milliseconds and supports negative timestamps", async ({
   await page.goto("/tools/timestamp-converter");
   await page.locator("#timestamp-input:visible").fill("1714564800000");
   await page.getByRole("button", { name: "Convert", exact: true }).click();
-  await expect(page.getByText("Detected as milliseconds.")).toBeVisible();
+  await expect(
+    page.getByText("Detected as milliseconds.").filter({ visible: true }),
+  ).toBeVisible();
 
   await page.locator("#timestamp-input:visible").fill("-1");
   await page.locator("#timestamp-unit:visible").selectOption("seconds");
