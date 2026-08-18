@@ -815,6 +815,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "example.com",
     input: ["url", "text"],
     output: ["json", "text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "http-header-analyzer",
