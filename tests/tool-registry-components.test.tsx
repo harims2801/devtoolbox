@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { RelatedTools } from "@/components/tools/related-tools";
 import { ToolBreadcrumbs } from "@/components/tools/tool-breadcrumbs";
-import { getToolById } from "@/config/tool-registry";
+import { getRelatedTools, getToolById } from "@/config/tool-registry";
 
 describe("registry-driven tool components", () => {
   const tool = getToolById("json-formatter-validator");
@@ -25,12 +25,15 @@ describe("registry-driven tool components", () => {
     );
   });
 
-  it("renders planned related tools through their placeholder routes", () => {
+  it("renders related routes and current availability badges", () => {
     expect(tool).toBeDefined();
     render(<RelatedTools tool={tool!} />);
 
     expect(screen.getByText("YAML Converter")).toBeInTheDocument();
-    expect(screen.getAllByText("Coming soon")).not.toHaveLength(0);
+    const planned = getRelatedTools(tool!, 4).filter(
+      (related) => related.availability === "planned",
+    );
+    expect(screen.queryAllByText("Coming soon")).toHaveLength(planned.length);
     expect(
       screen.getByRole("link", { name: /YAML Converter/ }),
     ).toHaveAttribute("href", "/tools/yaml-formatter");
