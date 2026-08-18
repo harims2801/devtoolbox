@@ -287,6 +287,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "select id,name from users where active=true;",
     input: ["sql", "file"],
     output: ["sql", "file"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "markdown-previewer",
