@@ -781,6 +781,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     relatedToolIds: ["http-header-analyzer", "webhook-payload-tester"],
     input: ["number", "text"],
     output: ["text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "cidr-ip-calculator",
