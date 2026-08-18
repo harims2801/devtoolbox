@@ -2,6 +2,7 @@
 
 import { ThemeProvider } from "next-themes";
 
+import { CommandPaletteProvider } from "@/components/search/command-palette";
 import { Toaster } from "@/components/ui/sonner";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -12,8 +13,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
       enableSystem
       disableTransitionOnChange
     >
-      {children}
-      <Toaster />
+      <CommandPaletteProvider>
+        {children}
+        <Toaster />
+      </CommandPaletteProvider>
     </ThemeProvider>
   );
 }
