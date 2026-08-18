@@ -39,6 +39,7 @@ export interface ToolLayoutProps {
   faqs?: ToolFaq[];
   relatedTools?: React.ReactNode;
   seoContent?: React.ReactNode;
+  workspaceMode?: "split" | "input" | "output";
 }
 
 export type RegisteredToolLayoutProps = Omit<
@@ -69,6 +70,7 @@ export function ToolLayout({
   faqs,
   relatedTools,
   seoContent,
+  workspaceMode,
 }: ToolLayoutProps) {
   return (
     <main className="py-8 sm:py-10">
@@ -107,6 +109,7 @@ export function ToolLayout({
         inputLabel={inputLabel}
         output={output}
         outputLabel={outputLabel}
+        mode={workspaceMode}
       />
 
       <div className="mt-12 grid gap-10 xl:grid-cols-[minmax(0,1fr)_18rem]">

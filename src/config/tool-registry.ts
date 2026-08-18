@@ -302,6 +302,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "# Release notes",
     input: ["markdown", "file"],
     output: ["markdown"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "base64-encoder-decoder",
