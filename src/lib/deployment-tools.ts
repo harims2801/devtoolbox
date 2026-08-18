@@ -5,7 +5,8 @@ export function getCanonicalRedirect(request: Request, canonicalHost?: string) {
   if (!hostPattern.test(normalizedHost)) return null;
   const url = new URL(request.url);
   const forwardedProtocol = request.headers.get("x-forwarded-proto");
-  if (url.hostname === normalizedHost && forwardedProtocol !== "http") return null;
+  if (url.hostname === normalizedHost && forwardedProtocol !== "http")
+    return null;
   url.protocol = "https:";
   url.hostname = normalizedHost;
   url.port = "";

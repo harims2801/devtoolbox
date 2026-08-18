@@ -13,10 +13,41 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/icon.svg", type: "image/svg+xml" }],
   manifest: "/manifest.webmanifest",
   alternates: { canonical: "/" },
-  openGraph: { type: "website", url: "/", title: siteConfig.name, description: siteConfig.description, siteName: siteConfig.name, images: [{ url: "/opengraph-image", width: 1200, height: 630 }] },
-  twitter: { card: "summary_large_image", title: siteConfig.name, description: siteConfig.description, images: ["/opengraph-image"] },
-  appleWebApp: { capable: true, title: "DevToolbox", statusBarStyle: "default" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: ["/opengraph-image"],
+  },
+  appleWebApp: {
+    capable: true,
+    title: "DevToolbox",
+    statusBarStyle: "default",
+  },
 };
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en" suppressHydrationWarning><body className="bg-background text-foreground min-h-screen antialiased"><Providers><div className="flex min-h-screen flex-col"><SiteHeader /><div className="flex-1">{children}</div><SiteFooter /><PwaStatus /></div></Providers></body></html>;
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-background text-foreground min-h-screen antialiased">
+        <Providers>
+          <div className="flex min-h-screen flex-col">
+            <SiteHeader />
+            <div className="flex-1">{children}</div>
+            <SiteFooter />
+            <PwaStatus />
+          </div>
+        </Providers>
+      </body>
+    </html>
+  );
 }
