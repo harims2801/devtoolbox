@@ -1,12 +1,6 @@
-import type { Metadata } from "next";
-
 import { CronBuilderTool } from "@/components/tools/cron-builder-tool";
-
-export const metadata: Metadata = {
-  title: "Cron Expression Builder and Explainer",
-  description:
-    "Build, validate, explain, and preview standard five-field Unix cron schedules in your browser.",
-};
+import { getToolMetadata } from "@/lib/seo";
+export const metadata = getToolMetadata("cron-expression-builder");
 
 export default function CronBuilderPage() {
   return <CronBuilderTool />;

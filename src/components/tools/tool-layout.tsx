@@ -1,10 +1,12 @@
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
+import { StructuredData } from "@/components/seo/structured-data";
 import { PrivacyBadge } from "@/components/shared/privacy-badge";
 import { FavoriteButton } from "@/components/tools/favorite-button";
 import { RecentToolTracker } from "@/components/tools/recent-tool-tracker";
 import { RelatedTools } from "@/components/tools/related-tools";
 import { ResponsiveWorkspace } from "@/components/tools/responsive-workspace";
 import { getCategoryById, type ToolDefinition } from "@/config/tool-registry";
+import { faqStructuredData, toolStructuredData } from "@/lib/seo";
 
 export interface ToolExample {
   title: string;
@@ -192,6 +194,10 @@ export function RegisteredToolLayout({
 
   return (
     <>
+      <StructuredData value={toolStructuredData(tool)} />
+      {workspace.faqs?.length ? (
+        <StructuredData value={faqStructuredData(workspace.faqs)} />
+      ) : null}
       <RecentToolTracker toolId={tool.id} />
       <ToolLayout
         {...workspace}

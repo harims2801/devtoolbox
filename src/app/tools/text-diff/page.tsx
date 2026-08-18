@@ -1,10 +1,6 @@
-import type { Metadata } from "next";
 import { DiffCheckerTool } from "@/components/tools/diff-checker-tool";
-export const metadata: Metadata = {
-  title: "Text and JSON Diff Checker",
-  description:
-    "Compare text line-by-line or find semantic JSON differences locally.",
-};
+import { getToolMetadata } from "@/lib/seo";
+export const metadata = getToolMetadata("text-diff-checker");
 export default function TextDiffPage() {
   return <DiffCheckerTool />;
 }

@@ -10,6 +10,7 @@ import {
   sortTools,
   toolCategories,
 } from "@/config/tool-registry";
+import { absoluteUrl } from "@/lib/seo";
 
 export function generateStaticParams() {
   return toolCategories.map((category) => ({ slug: category.slug }));
@@ -27,6 +28,17 @@ export async function generateMetadata({
   return {
     title: `${category.name} Tools`,
     description: category.description,
+    alternates: { canonical: absoluteUrl(`/tools/category/${category.slug}`) },
+    openGraph: {
+      title: `${category.name} Tools`,
+      description: category.description,
+      url: absoluteUrl(`/tools/category/${category.slug}`),
+    },
+    twitter: {
+      card: "summary",
+      title: `${category.name} Tools`,
+      description: category.description,
+    },
   };
 }
 
