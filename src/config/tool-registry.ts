@@ -272,6 +272,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "<service><port>3000</port></service>",
     input: ["xml", "file"],
     output: ["xml", "file"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "sql-formatter",
