@@ -506,6 +506,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     relatedToolIds: ["unix-timestamp-converter", "iso-date-formatter"],
     input: ["date", "text"],
     output: ["date", "text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "date-difference-calculator",
