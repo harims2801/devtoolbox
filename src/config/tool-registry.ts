@@ -341,6 +341,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "status=ready & owner=dev",
     input: ["text", "url"],
     output: ["text", "url"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "html-entity-encoder-decoder",
