@@ -28,6 +28,14 @@ describe("IP tools", () => {
       usableHosts: 1n,
     });
   });
+  it("handles the full IPv4 range", () => {
+    expect(calculateIPv4("203.0.113.9/0")).toMatchObject({
+      network: "0.0.0.0",
+      broadcast: "255.255.255.255",
+      totalAddresses: 4_294_967_296n,
+      usableHosts: 4_294_967_294n,
+    });
+  });
   it("checks membership and overlap", () => {
     expect(containsIPv4("10.0.0.0/24", "10.0.0.255")).toBe(true);
     expect(containsIPv4("10.0.0.0/24", "10.0.1.1")).toBe(false);
@@ -52,10 +60,17 @@ describe("IP tools", () => {
     });
     expect(expandIPv6("::1").type).toBe("loopback");
     expect(expandIPv6("fe80::1").type).toBe("link-local");
+    expect(expandIPv6("::ffff:192.0.2.128/128")).toMatchObject({
+      compressed: "::ffff:c000:280",
+      prefix: 128,
+    });
+    expect(expandIPv6("::").compressed).toBe("::");
   });
   it("rejects invalid input", () => {
     expect(() => calculateIPv4("999.1.1.1/24")).toThrow();
     expect(() => calculateIPv4("1.1.1.1/33")).toThrow();
     expect(() => expandIPv6("1::2::3")).toThrow();
+    expect(() => expandIPv6("gggg::1")).toThrow();
+    expect(() => expandIPv6("::1/129")).toThrow();
   });
 });
