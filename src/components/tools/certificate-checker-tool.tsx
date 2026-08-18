@@ -10,6 +10,7 @@ import {
 } from "@/components/tools/tool-actions";
 import { Button } from "@/components/ui/button";
 import { getToolById } from "@/config/tool-registry";
+import { useOnlineStatus } from "@/hooks/use-online-status";
 import {
   validateCertificateHostname,
   type CertificateResult,
@@ -21,6 +22,7 @@ export function CertificateCheckerTool() {
     [result, setResult] = useState<CertificateResult | null>(null),
     [error, setError] = useState(""),
     [loading, setLoading] = useState(false);
+  const online = useOnlineStatus();
   async function check() {
     try {
       validateCertificateHostname(hostname);
@@ -56,7 +58,7 @@ export function CertificateCheckerTool() {
       outputLabel="Certificate details"
       toolbar={
         <>
-          <Button disabled={loading} onClick={() => void check()}>
+          <Button disabled={loading || !online} onClick={() => void check()}>
             {loading ? <Loader2 className="animate-spin" /> : <BadgeCheck />}
             {loading ? "Checking…" : "Check certificate"}
           </Button>
@@ -80,6 +82,11 @@ export function CertificateCheckerTool() {
             This server-assisted tool connects only to public hostnames on TLS
             port 443. Do not enter URLs or sensitive internal names.
           </div>
+          {!online ? (
+            <p role="status" className="text-sm text-amber-700">
+              Reconnect to check a certificate.
+            </p>
+          ) : null}
           <label htmlFor="certificate-hostname">Hostname</label>
           <input
             id="certificate-hostname"
