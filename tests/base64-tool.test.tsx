@@ -55,4 +55,19 @@ describe("Base64Tool", () => {
     );
     expect(screen.getAllByText("application/octet-stream")[0]).toBeVisible();
   });
+
+  it("releases image preview URLs when the preview is removed", async () => {
+    const user = userEvent.setup();
+    const { unmount } = render(<Base64Tool />);
+    await user.click(screen.getByRole("button", { name: "File mode" }));
+    const file = new File([Uint8Array.from([137, 80, 78, 71])], "image.png", {
+      type: "image/png",
+    });
+
+    await user.upload(document.querySelector('input[type="file"]')!, file);
+    expect(await screen.findByAltText("Preview of image.png")).toBeVisible();
+    unmount();
+
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:preview");
+  });
 });

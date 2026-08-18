@@ -15,6 +15,31 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    {
+      name: "edge-compatible",
+      testMatch: /cross-browser\.spec\.ts/,
+      use: { ...devices["Desktop Edge"] },
+    },
+    {
+      name: "firefox",
+      testMatch: /cross-browser\.spec\.ts/,
+      use: { ...devices["Desktop Firefox"] },
+    },
+    {
+      name: "webkit",
+      testMatch: /cross-browser\.spec\.ts/,
+      use: { ...devices["Desktop Safari"] },
+    },
+    {
+      name: "mobile-chromium",
+      testMatch: /cross-browser\.spec\.ts/,
+      use: { ...devices["Pixel 5"] },
+    },
+    {
+      name: "mobile-webkit",
+      testMatch: /cross-browser\.spec\.ts/,
+      use: { ...devices["iPhone 13"] },
+    },
   ],
   webServer: {
     command: "pnpm dev",
