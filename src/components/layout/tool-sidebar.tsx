@@ -1,14 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { LayoutGrid } from "lucide-react";
 
-import { toolCategories } from "@/config/navigation";
+import { toolCategories } from "@/config/tool-registry";
 import { cn } from "@/lib/utils";
 
 export function ToolSidebar() {
-  const selectedCategory = useSearchParams().get("category");
+  const pathname = usePathname();
+  const categoryParam = useSearchParams().get("category");
+  const selectedCategory = toolCategories.find(
+    (category) =>
+      category.id === categoryParam ||
+      pathname === `/tools/category/${category.slug}`,
+  )?.id;
 
   return (
     <aside
@@ -31,7 +37,7 @@ export function ToolSidebar() {
         <p className="text-muted-foreground px-3 pt-5 pb-2 text-xs font-semibold tracking-wider uppercase">
           Categories
         </p>
-        {toolCategories.map(({ id, name, icon: Icon }) => (
+        {toolCategories.map(({ id, name, slug, icon: Icon }) => (
           <Link
             aria-current={selectedCategory === id ? "page" : undefined}
             className={cn(
@@ -40,7 +46,7 @@ export function ToolSidebar() {
                 ? "bg-accent text-accent-foreground font-medium"
                 : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
             )}
-            href={`/tools?category=${id}`}
+            href={`/tools/category/${slug}`}
             key={id}
           >
             <Icon aria-hidden="true" className="size-4" />

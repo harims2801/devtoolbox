@@ -22,14 +22,69 @@ test("desktop category navigation filters planned tools", async ({ page }) => {
     .getByRole("link", { name: /formatting & validation/i })
     .first()
     .click();
-  await expect(page).toHaveURL(/category=formatting-validation/);
+  await expect(page).toHaveURL(/\/tools\/category\/formatting-validation$/);
   await expect(
-    page.getByRole("heading", {
-      level: 2,
-      name: "Formatting & Validation tools",
-    }),
+    page.getByRole("heading", { level: 1, name: "Formatting & Validation" }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", { level: 3, name: "JSON Formatter" }),
+    page.getByRole("heading", {
+      level: 3,
+      name: "JSON Formatter and Validator",
+    }),
+  ).toBeVisible();
+});
+
+test("tool filters support processing type and empty results", async ({
+  page,
+}) => {
+  await page.goto(
+    "/tools?category=formatting-validation&processing=server-assisted",
+  );
+
+  await expect(
+    page.getByRole("heading", { name: "No tools match these filters" }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "Clear" }).click();
+  await expect(page).toHaveURL(/\/tools$/);
+  await expect(page.getByText("41 tools found")).toBeVisible();
+});
+
+test("command palette opens a tool and remembers it", async ({ page }) => {
+  await page.goto("/");
+  await page.keyboard.press("Control+k");
+  await page
+    .getByPlaceholder("Search tools, descriptions, or keywords...")
+    .fill("json formatter");
+  await page.keyboard.press("Enter");
+
+  await expect(page).toHaveURL(/\/tools\/json-formatter$/);
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: "JSON Formatter and Validator",
+    }),
+  ).toBeVisible();
+
+  await page.keyboard.press("Control+k");
+  await expect(
+    page.getByRole("heading", { name: "Recent tools" }),
+  ).toBeVisible();
+});
+
+test("favorites persist on the saved tools page", async ({ page }) => {
+  await page.goto("/tools");
+  await page
+    .getByRole("button", {
+      name: "Add JSON Formatter and Validator to favorites",
+    })
+    .first()
+    .click();
+  await page.goto("/favorites");
+
+  await expect(
+    page.getByRole("heading", {
+      level: 3,
+      name: "JSON Formatter and Validator",
+    }),
   ).toBeVisible();
 });
