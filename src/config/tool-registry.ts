@@ -616,6 +616,11 @@ export const toolRegistry: readonly ToolDefinition[] = [
     icon: CaseSensitive,
     relatedToolIds: ["text-sorter-deduplicator", "text-counter"],
     example: "Dev Toolbox",
+    input: ["text"],
+    output: ["text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "text-counter",
