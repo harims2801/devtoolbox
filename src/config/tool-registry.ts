@@ -671,6 +671,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     relatedToolIds: ["sensitive-data-masker", "json-formatter-validator"],
     input: ["text", "json", "file"],
     output: ["text", "json"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "sensitive-data-masker",
