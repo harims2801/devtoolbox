@@ -426,6 +426,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     output: ["text"],
     isPopular: true,
     popularityRank: 9,
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "hash-generator",
