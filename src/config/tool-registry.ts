@@ -632,7 +632,11 @@ export const toolRegistry: readonly ToolDefinition[] = [
     keywords: ["character", "word", "line", "count", "text"],
     icon: Sigma,
     example: "Measure this text.",
+    input: ["text", "file"],
     output: ["number", "text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "regex-tester",
