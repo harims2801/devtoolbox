@@ -387,6 +387,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     relatedToolIds: ["random-password-generator", "fake-test-data-generator"],
     input: ["number"],
     output: ["text", "file"],
+    availability: "available",
     isPopular: true,
     popularityRank: 5,
     addedAt: "2026-07-18",
@@ -533,6 +534,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     isPopular: true,
     isFeatured: true,
     popularityRank: 8,
+    availability: "available",
   }),
   defineTool({
     id: "json-diff-checker",
@@ -592,6 +594,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     icon: Regex,
     relatedToolIds: ["text-diff-checker", "sensitive-data-masker"],
     example: "\\b[A-Z]{2,}\\b",
+    availability: "available",
     isNew: true,
     addedAt: "2026-07-23",
   }),
