@@ -357,6 +357,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMifQ.signature",
     input: ["token"],
     output: ["json"],
+    availability: "available",
     isPopular: true,
     isFeatured: true,
     popularityRank: 2,
