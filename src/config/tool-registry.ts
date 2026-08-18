@@ -419,6 +419,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "release-artifact-v1",
     input: ["text", "file"],
     output: ["text"],
+    availability: "available",
     isPopular: true,
     isFeatured: true,
     popularityRank: 7,
@@ -656,6 +657,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "PORT=3000\nNODE_ENV=production",
     input: ["text", "file"],
     output: ["text", "json", "file"],
+    availability: "available",
   }),
   defineTool({
     id: "log-formatter-analyzer",
@@ -681,6 +683,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     relatedToolIds: ["log-formatter-analyzer", "environment-variable-parser"],
     input: ["text", "json", "file"],
     output: ["text", "json", "file"],
+    availability: "available",
     isNew: true,
     addedAt: "2026-07-23",
   }),
