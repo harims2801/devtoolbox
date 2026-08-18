@@ -600,6 +600,11 @@ export const toolRegistry: readonly ToolDefinition[] = [
     icon: ListFilter,
     relatedToolIds: ["case-converter", "text-counter"],
     example: "pear\napple\npear",
+    input: ["text", "file"],
+    output: ["text", "file"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "case-converter",
