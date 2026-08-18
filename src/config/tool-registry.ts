@@ -835,6 +835,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "https://example.com",
     input: ["url"],
     output: ["json", "text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "user-agent-parser",
