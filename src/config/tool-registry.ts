@@ -537,6 +537,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "2026-07-22T12:30:00Z",
     input: ["date", "text"],
     output: ["date", "text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "cron-expression-builder",
