@@ -355,6 +355,11 @@ export const toolRegistry: readonly ToolDefinition[] = [
     keywords: ["html", "entity", "escape", "encode", "decode"],
     icon: FileCode2,
     example: '<button aria-label="Next">',
+    input: ["text"],
+    output: ["text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "jwt-decoder-inspector",
