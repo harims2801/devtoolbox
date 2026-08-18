@@ -684,6 +684,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     ],
     input: ["yaml", "file"],
     output: ["text", "json"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "terraform-variable-generator",
