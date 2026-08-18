@@ -1,6 +1,5 @@
 "use client";
 import { useMemo, useState } from "react";
-import { Network } from "lucide-react";
 import { RegisteredToolLayout } from "@/components/tools/tool-layout";
 import { OutputPanel } from "@/components/tools/output-panel";
 import {
@@ -9,7 +8,6 @@ import {
   ExampleButton,
   ResetButton,
 } from "@/components/tools/tool-actions";
-import { Button } from "@/components/ui/button";
 import { getToolById } from "@/config/tool-registry";
 import {
   calculateIPv4,
@@ -21,16 +19,24 @@ import {
   bigIntToIPv4,
   subnetIPv4,
 } from "@/lib/ip-tools";
+const defaults = {
+  cidr: "192.168.10.42/24",
+  contains: "192.168.10.100",
+  other: "192.168.10.128/25",
+  newPrefix: 26,
+  mask: "255.255.255.0",
+  ipv6: "2001:db8::1/64",
+};
 export function CidrCalculatorTool() {
   const tool = getToolById("cidr-ip-calculator");
   if (!tool) throw new Error("CIDR calculator metadata is missing");
-  const [cidr, setCidr] = useState("192.168.10.42/24"),
-    [contains, setContains] = useState("192.168.10.100"),
-    [other, setOther] = useState("192.168.10.128/25"),
-    [newPrefix, setNewPrefix] = useState(26),
+  const [cidr, setCidr] = useState(defaults.cidr),
+    [contains, setContains] = useState(defaults.contains),
+    [other, setOther] = useState(defaults.other),
+    [newPrefix, setNewPrefix] = useState(defaults.newPrefix),
     [page, setPage] = useState(0),
-    [mask, setMask] = useState("255.255.255.0"),
-    [ipv6, setIpv6] = useState("2001:db8::1/64");
+    [mask, setMask] = useState(defaults.mask),
+    [ipv6, setIpv6] = useState(defaults.ipv6);
   const result = useMemo(() => {
     try {
       return { value: calculateIPv4(cidr), error: "" };
@@ -67,15 +73,26 @@ export function CidrCalculatorTool() {
       outputLabel="Calculated network"
       toolbar={
         <>
-          <Button>
-            <Network />
-            Calculate locally
-          </Button>
-          <ExampleButton onLoad={() => setCidr("192.168.10.42/24")} />
+          <ExampleButton
+            onLoad={() => {
+              setCidr(defaults.cidr);
+              setContains(defaults.contains);
+              setOther(defaults.other);
+              setNewPrefix(defaults.newPrefix);
+              setMask(defaults.mask);
+              setIpv6(defaults.ipv6);
+              setPage(0);
+            }}
+          />
           <ResetButton
             label="Reset"
             onReset={() => {
               setCidr("");
+              setContains("");
+              setOther("");
+              setNewPrefix(32);
+              setMask("");
+              setIpv6("");
               setPage(0);
             }}
           />
@@ -105,6 +122,7 @@ export function CidrCalculatorTool() {
             <label>
               Contains IP?
               <input
+                aria-label="Contains IP"
                 className="mt-1 w-full rounded border px-2 py-1 font-mono"
                 value={contains}
                 onChange={(e) => setContains(e.target.value)}
@@ -124,6 +142,7 @@ export function CidrCalculatorTool() {
             <label>
               Overlap CIDR
               <input
+                aria-label="Overlap CIDR"
                 className="mt-1 w-full rounded border px-2 py-1 font-mono"
                 value={other}
                 onChange={(e) => setOther(e.target.value)}
@@ -146,6 +165,7 @@ export function CidrCalculatorTool() {
           <label>
             Subnet into prefix /
             <input
+              aria-label="Subnet prefix"
               className="ml-2 w-20 rounded border px-2"
               type="number"
               min={value?.prefix ?? 0}
@@ -160,6 +180,7 @@ export function CidrCalculatorTool() {
           <label>
             Subnet mask to CIDR
             <input
+              aria-label="Subnet mask to CIDR"
               className="mt-1 w-full rounded border px-2 py-1 font-mono"
               value={mask}
               onChange={(e) => setMask(e.target.value)}
@@ -216,17 +237,19 @@ export function CidrCalculatorTool() {
                   text={`${value.network}/${value.prefix}`}
                 />
               ) : null}
-              <DownloadButton
-                content={csv}
-                filename="subnets.csv"
-                label="Export CSV"
-              />
+              {value && subnets.items.length ? (
+                <DownloadButton
+                  content={csv}
+                  filename="subnets.csv"
+                  label="Export CSV"
+                />
+              ) : null}
             </>
           }
         >
           <>
             {value ? (
-              <div className="space-y-4">
+              <div className="space-y-4" data-testid="cidr-output">
                 <dl className="grid gap-2 text-sm sm:grid-cols-2">
                   {[
                     ["Network", value.network],

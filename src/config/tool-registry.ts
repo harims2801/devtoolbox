@@ -798,6 +798,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "10.0.0.0/24",
     input: ["text"],
     output: ["text", "json"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "dns-lookup",
