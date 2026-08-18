@@ -585,6 +585,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     relatedToolIds: ["text-diff-checker", "json-formatter-validator"],
     input: ["json", "file"],
     output: ["json", "text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "text-sorter-deduplicator",
