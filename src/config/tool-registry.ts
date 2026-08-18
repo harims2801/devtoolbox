@@ -643,6 +643,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     relatedToolIds: ["environment-variable-parser", "json-formatter-validator"],
     input: ["json", "text"],
     output: ["text", "file"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "environment-variable-parser",
