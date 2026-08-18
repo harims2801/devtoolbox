@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AnalyticsPreference } from "@/components/privacy/analytics-preference";
 export const metadata: Metadata = {
   title: "Privacy",
   description:
@@ -11,9 +12,19 @@ export default function PrivacyPage() {
       <div className="mt-6 space-y-5 leading-7">
         <p>
           Most DevToolbox tools process what you paste or upload entirely in
-          your browser. Tool inputs and outputs are not intentionally placed in
-          the offline cache.
+          your browser. Local tools do not send input to our server. Tool inputs
+          and outputs are not stored in localStorage, placed in URLs, sent to
+          analytics, or intentionally placed in the offline cache.
         </p>
+        <h2 className="text-xl font-semibold">Analytics choice</h2>
+        <p>
+          Analytics is limited to counts for page views, tool opens, and generic
+          actions. It excludes input, output, filenames, hostnames, tokens,
+          hashes, decoded data, logs, manifests, and environment variables. Do
+          Not Track disables analytics where supported, and no fingerprinting is
+          used.
+        </p>
+        <AnalyticsPreference />
         <h2 className="text-xl font-semibold">Offline caching</h2>
         <p>
           The service worker caches the application shell, previously visited
@@ -26,10 +37,19 @@ export default function PrivacyPage() {
           You can remove DevToolbox site data from your browser settings or
           uninstall the app. Updating the app replaces older versioned caches.
         </p>
-        <h2 className="text-xl font-semibold">Network tools</h2>
+        <h2 className="text-xl font-semibold">Server-assisted tools</h2>
         <p>
-          Tools marked server-assisted require a network request and are
-          unavailable offline. Review each tool’s notice before submitting data.
+          Tools marked server-assisted send only the explicitly submitted value
+          needed for that request. Certificate checks use a restricted endpoint
+          with network-abuse protections and do not write submitted hostnames to
+          application logs.
+        </p>
+        <h2 className="text-xl font-semibold">Error safety</h2>
+        <p>
+          Application error summaries are automatically redacted for common
+          keys, tokens, credentials, email addresses, and IP addresses.
+          DevToolbox does not intentionally log secrets, manifests, logs,
+          environment variables, or decoded data.
         </p>
       </div>
     </main>
