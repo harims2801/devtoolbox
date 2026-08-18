@@ -11,6 +11,7 @@ import { ResponsiveWorkspace } from "@/components/tools/responsive-workspace";
 import { getCategoryById, type ToolDefinition } from "@/config/tool-registry";
 import { faqStructuredData, toolStructuredData } from "@/lib/seo";
 import { trackSafeEvent } from "@/lib/analytics";
+import { FeedbackButton } from "@/components/feedback/feedback-button";
 
 export interface ToolExample {
   title: string;
@@ -217,6 +218,7 @@ export function RegisteredToolLayout({
         toolbar={
           <>
             <FavoriteButton showLabel toolId={tool.id} toolName={tool.name} />
+            <FeedbackButton tool={tool} />
             {toolbar}
           </>
         }
