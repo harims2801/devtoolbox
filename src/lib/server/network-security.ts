@@ -37,11 +37,14 @@ const blockedSuffixes = [
 ];
 
 export function normalizeHostname(input: string) {
-  const trimmed = input.trim().replace(/\.$/, ""),
-    ascii = domainToASCII(trimmed).toLowerCase();
+  const trimmed = input
+    .trim()
+    .replace(/^\[|\]$/g, "")
+    .replace(/\.$/, "");
+  if (isIP(trimmed)) return trimmed.toLowerCase();
+  const ascii = domainToASCII(trimmed).toLowerCase();
   if (!ascii || ascii.length > 253)
     throw new SafeNetworkError("INVALID_INPUT", "Enter a valid hostname.");
-  if (isIP(ascii)) return ascii;
   if (
     ascii === "localhost" ||
     blockedSuffixes.some((suffix) => ascii.endsWith(suffix))
