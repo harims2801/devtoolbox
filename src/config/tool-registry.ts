@@ -476,6 +476,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     output: ["json", "file"],
     isNew: true,
     addedAt: "2026-07-22",
+    availability: "available",
   }),
   defineTool({
     id: "unix-timestamp-converter",
