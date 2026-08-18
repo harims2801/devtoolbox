@@ -375,6 +375,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "0x2A",
     input: ["text", "number"],
     output: ["text", "number"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "uuid-generator",
