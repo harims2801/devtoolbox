@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 import { ErrorView } from "@/components/shared/error-view";
+import { redactErrorReport } from "@/lib/privacy-tools";
 
 export default function ErrorPage({
   error,
@@ -12,7 +13,8 @@ export default function ErrorPage({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Error monitoring will be connected later; never log tool input or output here.
+    // A future reporter may receive only this redacted summary, never raw tool state.
+    void redactErrorReport(error);
   }, [error]);
 
   return <ErrorView onRetry={reset} />;

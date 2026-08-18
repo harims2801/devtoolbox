@@ -1,4 +1,7 @@
+"use client";
+
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
+import { useEffect } from "react";
 import { StructuredData } from "@/components/seo/structured-data";
 import { PrivacyBadge } from "@/components/shared/privacy-badge";
 import { FavoriteButton } from "@/components/tools/favorite-button";
@@ -7,6 +10,7 @@ import { RelatedTools } from "@/components/tools/related-tools";
 import { ResponsiveWorkspace } from "@/components/tools/responsive-workspace";
 import { getCategoryById, type ToolDefinition } from "@/config/tool-registry";
 import { faqStructuredData, toolStructuredData } from "@/lib/seo";
+import { trackSafeEvent } from "@/lib/analytics";
 
 export interface ToolExample {
   title: string;
@@ -191,6 +195,9 @@ export function RegisteredToolLayout({
   ...workspace
 }: RegisteredToolLayoutProps) {
   const category = getCategoryById(tool.category);
+  useEffect(() => {
+    trackSafeEvent("tool_open", tool.id);
+  }, [tool.id]);
 
   return (
     <>

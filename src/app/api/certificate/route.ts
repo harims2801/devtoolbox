@@ -14,6 +14,12 @@ const cache = new Map<
   >(),
   requests = new Map<string, { count: number; reset: number }>();
 export async function POST(request: Request) {
+  const origin = request.headers.get("origin");
+  if (origin && origin !== new URL(request.url).origin)
+    return NextResponse.json(
+      { error: "Cross-origin request rejected." },
+      { status: 403 },
+    );
   const length = Number(request.headers.get("content-length") ?? 0);
   if (length > 2048)
     return NextResponse.json(
