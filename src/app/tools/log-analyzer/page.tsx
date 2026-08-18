@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
 import { LogAnalyzerTool } from "@/components/tools/log-analyzer-tool";
-export const metadata: Metadata = {
-  title: "Log Formatter and Analyzer",
-  description: "Parse, filter, group, and inspect common log formats locally.",
-};
+import { getToolMetadata } from "@/lib/seo";
+export const metadata = getToolMetadata("log-formatter-analyzer");
 export default function LogAnalyzerPage() {
   return <LogAnalyzerTool />;
 }

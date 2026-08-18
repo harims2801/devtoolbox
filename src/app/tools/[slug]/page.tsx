@@ -14,6 +14,7 @@ import {
   getToolBySlug,
   toolRegistry,
 } from "@/config/tool-registry";
+import { buildToolMetadata } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -29,14 +30,7 @@ export async function generateMetadata({
   const tool = getToolBySlug((await params).slug);
   if (!tool) return {};
 
-  return {
-    title: tool.name,
-    description: tool.description,
-    robots:
-      tool.availability === "available"
-        ? { index: true, follow: true }
-        : { index: false, follow: true },
-  };
+  return buildToolMetadata(tool);
 }
 
 export default async function PlannedToolPage({
