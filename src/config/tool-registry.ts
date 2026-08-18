@@ -458,6 +458,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     icon: Pilcrow,
     input: ["number"],
     output: ["text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "fake-test-data-generator",
