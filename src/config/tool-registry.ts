@@ -462,6 +462,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "1714564800",
     input: ["date", "number", "text"],
     output: ["date", "number", "text"],
+    availability: "available",
     isPopular: true,
     popularityRank: 6,
   }),
