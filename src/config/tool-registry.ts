@@ -518,8 +518,12 @@ export const toolRegistry: readonly ToolDefinition[] = [
     category: "date-time",
     keywords: ["date", "difference", "duration", "calculate"],
     icon: CalendarDays,
+    relatedToolIds: ["time-zone-converter", "iso-date-formatter"],
     input: ["date"],
     output: ["number", "text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-18",
   }),
   defineTool({
     id: "iso-date-formatter",
