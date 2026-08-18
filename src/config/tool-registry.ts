@@ -614,6 +614,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     output: ["text", "json"],
     isNew: true,
     addedAt: "2026-07-23",
+    availability: "available",
   }),
   defineTool({
     id: "docker-compose-validator",
