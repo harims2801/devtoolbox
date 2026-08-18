@@ -515,6 +515,7 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "0 9 * * 1-5",
     input: ["text"],
     output: ["text", "date"],
+    availability: "available",
     isPopular: true,
     popularityRank: 10,
   }),
