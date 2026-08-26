@@ -15,7 +15,7 @@ describe("SEO", () => {
   });
   it("creates canonical social metadata and noindexes placeholders", () => {
     const available = getToolById("json-formatter-validator")!,
-      planned = toolRegistry.find((x) => x.availability === "planned")!;
+      planned = { ...available, availability: "planned" as const };
     expect(buildToolMetadata(available)).toMatchObject({
       alternates: { canonical: expect.stringContaining(available.route) },
       openGraph: { title: available.name },
