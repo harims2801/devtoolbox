@@ -850,6 +850,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     relatedToolIds: ["http-header-analyzer", "url-parser"],
     input: ["text"],
     output: ["json", "text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-26",
   }),
   defineTool({
     id: "url-parser",
