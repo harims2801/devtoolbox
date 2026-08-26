@@ -167,6 +167,15 @@ export function classifyIpAddress(address: string): IpClassification {
       reason: `IPv4-mapped ${result.reason}`,
     };
   }
+  if (
+    groups.slice(0, 6).every((group) => group === 0) &&
+    (groups[6] !== 0 || groups[7]! > 1)
+  )
+    return {
+      version: 6 as const,
+      public: false,
+      reason: "IPv4-compatible special-use",
+    };
   const first = groups[0]!,
     second = groups[1]!;
   let reason: string | undefined;
@@ -176,6 +185,12 @@ export function classifyIpAddress(address: string): IpClassification {
   else if ((first & 0xfe00) === 0xfc00) reason = "unique-local";
   else if ((first & 0xffc0) === 0xfe80) reason = "link-local";
   else if ((first & 0xff00) === 0xff00) reason = "multicast";
+  else if (
+    first === 0x0064 &&
+    second === 0xff9b &&
+    (groups[2] === 0 || groups[2] === 1)
+  )
+    reason = "IPv4 translation prefix";
   else if (first === 0x2001 && second === 0x0db8) reason = "documentation";
   else if (first === 0x0100 && second === 0) reason = "discard-only";
   else if (

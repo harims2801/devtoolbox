@@ -898,6 +898,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     relatedToolIds: ["http-header-analyzer", "json-formatter-validator"],
     input: ["url", "json"],
     output: ["json", "text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-26",
   }),
 ];
 
