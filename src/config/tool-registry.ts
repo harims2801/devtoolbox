@@ -866,6 +866,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     example: "https://example.com/tools?sort=name#results",
     input: ["url", "text"],
     output: ["json", "text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-26",
   }),
   defineTool({
     id: "query-string-builder",
