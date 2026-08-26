@@ -881,6 +881,9 @@ export const toolRegistry: readonly ToolDefinition[] = [
     relatedToolIds: ["url-parser", "url-encoder-decoder"],
     input: ["json", "text"],
     output: ["url", "text"],
+    availability: "available",
+    isNew: true,
+    addedAt: "2026-08-26",
   }),
   defineTool({
     id: "webhook-payload-tester",
