@@ -32,6 +32,46 @@ describe("PasswordGeneratorTool", () => {
       "cannot include all 4",
     );
   });
+  it("guarantees comma-separated custom inclusions including a quoted comma", async () => {
+    const user = userEvent.setup();
+    render(<PasswordGeneratorTool />);
+    fireEvent.change(screen.getAllByLabelText("Password count")[0]!, {
+      target: { value: "4" },
+    });
+    fireEvent.change(
+      screen.getAllByLabelText("Required custom inclusions")[0]!,
+      { target: { value: '@, #, ","' } },
+    );
+    await user.click(screen.getByRole("button", { name: "Generate" }));
+    const values = [
+      ...screen.getAllByTestId("password-output")[0]!.querySelectorAll("code"),
+    ].map((node) => node.textContent ?? "");
+    expect(values).toHaveLength(4);
+    for (const value of values) {
+      expect(value).toContain("@");
+      expect(value).toContain("#");
+      expect(value).toContain(",");
+    }
+  });
+  it("shows inclusion syntax and rule-conflict errors", async () => {
+    const user = userEvent.setup();
+    render(<PasswordGeneratorTool />);
+    fireEvent.change(screen.getAllByLabelText("Custom exclusions")[0]!, {
+      target: { value: "@" },
+    });
+    fireEvent.change(
+      screen.getAllByLabelText("Required custom inclusions")[0]!,
+      { target: { value: "@" } },
+    );
+    await user.click(screen.getByRole("button", { name: "Generate" }));
+    expect(screen.getAllByRole("alert")[0]).toHaveTextContent("also excluded");
+    fireEvent.change(
+      screen.getAllByLabelText("Required custom inclusions")[0]!,
+      { target: { value: '", ' } },
+    );
+    await user.click(screen.getByRole("button", { name: "Generate" }));
+    expect(screen.getAllByRole("alert")[0]).toHaveTextContent("unclosed quote");
+  });
   it("copies one password and the complete batch", async () => {
     const user = userEvent.setup();
     const writeText = vi
