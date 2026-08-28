@@ -942,6 +942,35 @@ export const toolRegistry: readonly ToolDefinition[] = [
     isFeatured: true,
     addedAt: "2026-08-28",
   }),
+  defineTool({
+    id: "structured-output-schema-builder",
+    name: "Structured Output Schema Builder",
+    shortName: "Output Schema Builder",
+    slug: "structured-output-schema-builder",
+    description:
+      "Build JSON Schema visually, validate samples, and export provider configurations.",
+    longDescription:
+      "Build strict nested JSON Schema from visual field definitions, validate sample model responses locally, and export current OpenAI, Anthropic, Google, or generic configurations.",
+    category: "ai-engineering",
+    keywords: [
+      "ai",
+      "llm",
+      "structured output",
+      "json schema",
+      "openai",
+      "anthropic",
+      "gemini",
+      "validate",
+    ],
+    icon: Braces,
+    relatedToolIds: ["llm-token-cost-calculator", "json-formatter-validator"],
+    input: ["json", "text"],
+    output: ["json", "file"],
+    availability: "available",
+    isNew: true,
+    isFeatured: true,
+    addedAt: "2026-08-28",
+  }),
 ];
 
 export function getCategoryById(id: string) {

@@ -18,7 +18,7 @@ import {
 
 describe("tool registry", () => {
   it("contains every planned tool with unique routes and valid references", () => {
-    expect(toolRegistry).toHaveLength(42);
+    expect(toolRegistry).toHaveLength(43);
 
     const ids = toolRegistry.map((tool) => tool.id);
     const slugs = toolRegistry.map((tool) => tool.slug);
