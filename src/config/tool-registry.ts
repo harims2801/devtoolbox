@@ -39,6 +39,7 @@ import {
   Sparkles,
   Variable,
   Webhook,
+  Wrench,
   type LucideIcon,
 } from "lucide-react";
 
@@ -965,6 +966,38 @@ export const toolRegistry: readonly ToolDefinition[] = [
     icon: Braces,
     relatedToolIds: ["llm-token-cost-calculator", "json-formatter-validator"],
     input: ["json", "text"],
+    output: ["json", "file"],
+    availability: "available",
+    isNew: true,
+    isFeatured: true,
+    addedAt: "2026-08-28",
+  }),
+  defineTool({
+    id: "ai-tool-schema-builder",
+    name: "AI Tool-Calling and MCP Schema Builder",
+    shortName: "AI Tool Schema Builder",
+    slug: "ai-tool-schema-builder",
+    description:
+      "Build and compare OpenAI, Anthropic, and MCP tool definitions.",
+    longDescription:
+      "Build strict nested tool parameters once, add optional MCP output schemas and behavior hints, and export current OpenAI, Anthropic, or Model Context Protocol definitions.",
+    category: "ai-engineering",
+    keywords: [
+      "ai",
+      "agent",
+      "tool calling",
+      "function calling",
+      "mcp",
+      "openai",
+      "anthropic",
+      "json schema",
+    ],
+    icon: Wrench,
+    relatedToolIds: [
+      "structured-output-schema-builder",
+      "json-formatter-validator",
+    ],
+    input: ["text", "json"],
     output: ["json", "file"],
     availability: "available",
     isNew: true,
