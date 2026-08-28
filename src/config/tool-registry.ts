@@ -3,6 +3,7 @@ import {
   Binary,
   BookOpenCheck,
   Boxes,
+  BrainCircuit,
   Braces,
   CalendarClock,
   CalendarDays,
@@ -122,6 +123,14 @@ export const toolCategories = [
     description: "Understand addresses, URLs, headers, and web behavior.",
     icon: Network,
     order: 7,
+  },
+  {
+    id: "ai-engineering",
+    name: "AI Engineering",
+    slug: "ai-engineering",
+    description: "Plan, validate, and debug production AI workflows.",
+    icon: BrainCircuit,
+    order: 8,
   },
 ] as const satisfies readonly ToolCategoryDefinition[];
 
@@ -901,6 +910,37 @@ export const toolRegistry: readonly ToolDefinition[] = [
     availability: "available",
     isNew: true,
     addedAt: "2026-08-26",
+  }),
+  defineTool({
+    id: "llm-token-cost-calculator",
+    name: "LLM Token and Cost Calculator",
+    shortName: "LLM Cost Calculator",
+    slug: "llm-token-cost-calculator",
+    description:
+      "Estimate tokens, import reviewed model pricing, and compare workload costs.",
+    longDescription:
+      "Estimate prompt tokens, securely import public AI-provider pricing tables, save reviewed rates locally, and compare the same workload across models.",
+    category: "ai-engineering",
+    keywords: [
+      "llm",
+      "token",
+      "cost",
+      "pricing",
+      "openai",
+      "anthropic",
+      "gemini",
+      "bedrock",
+      "compare",
+    ],
+    icon: BrainCircuit,
+    processingType: "server-assisted",
+    relatedToolIds: ["json-formatter-validator"],
+    input: ["text", "url", "number"],
+    output: ["number", "json"],
+    availability: "available",
+    isNew: true,
+    isFeatured: true,
+    addedAt: "2026-08-28",
   }),
 ];
 
