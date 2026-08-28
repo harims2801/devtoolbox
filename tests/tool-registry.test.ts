@@ -18,7 +18,7 @@ import {
 
 describe("tool registry", () => {
   it("contains every planned tool with unique routes and valid references", () => {
-    expect(toolRegistry).toHaveLength(41);
+    expect(toolRegistry).toHaveLength(42);
 
     const ids = toolRegistry.map((tool) => tool.id);
     const slugs = toolRegistry.map((tool) => tool.slug);
@@ -48,12 +48,13 @@ describe("tool registry", () => {
     );
     expect(getToolById("jwt-decoder-inspector")?.slug).toBe("jwt-decoder");
     expect(getCategoryBySlug("devops-sre")?.name).toBe("DevOps & SRE");
+    expect(getCategoryBySlug("ai-engineering")?.name).toBe("AI Engineering");
     expect(getToolBySlug("missing")).toBeUndefined();
   });
 
   it("filters by category and processing type", () => {
     expect(getToolsByCategory("generators")).toHaveLength(5);
-    expect(filterTools({ processingType: "server-assisted" })).toHaveLength(4);
+    expect(filterTools({ processingType: "server-assisted" })).toHaveLength(5);
     expect(
       filterTools({
         category: "formatting-validation",
