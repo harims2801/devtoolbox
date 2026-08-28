@@ -18,7 +18,7 @@ import {
 
 describe("tool registry", () => {
   it("contains every planned tool with unique routes and valid references", () => {
-    expect(toolRegistry).toHaveLength(43);
+    expect(toolRegistry).toHaveLength(44);
 
     const ids = toolRegistry.map((tool) => tool.id);
     const slugs = toolRegistry.map((tool) => tool.slug);
@@ -87,7 +87,11 @@ describe("tool registry", () => {
     const alphabetical = sortTools(toolRegistry, "alphabetical");
     const popular = sortTools(toolRegistry, "popularity");
 
-    expect(alphabetical[0]?.name).toBe("Base64 Encoder and Decoder");
+    expect(alphabetical.map((tool) => tool.name)).toEqual(
+      toolRegistry
+        .map((tool) => tool.name)
+        .toSorted((a, b) => a.localeCompare(b)),
+    );
     expect(popular[0]?.id).toBe("json-formatter-validator");
     expect(toolRegistry[0]).toBe(originalFirst);
   });
