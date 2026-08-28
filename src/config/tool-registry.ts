@@ -1004,6 +1004,39 @@ export const toolRegistry: readonly ToolDefinition[] = [
     isFeatured: true,
     addedAt: "2026-08-28",
   }),
+  defineTool({
+    id: "rag-chunking-playground",
+    name: "RAG Chunking Playground",
+    shortName: "RAG Chunking",
+    slug: "rag-chunking-playground",
+    description:
+      "Compare document chunking strategies, overlap, offsets, and token estimates.",
+    longDescription:
+      "Compare recursive, estimated-token, sentence, paragraph, and Markdown-aware document chunking locally with configurable overlap, exact source offsets, metrics, and JSON or JSONL export.",
+    category: "ai-engineering",
+    keywords: [
+      "ai",
+      "rag",
+      "retrieval",
+      "chunking",
+      "embedding",
+      "markdown",
+      "tokens",
+      "overlap",
+    ],
+    icon: ListTree,
+    relatedToolIds: [
+      "llm-token-cost-calculator",
+      "structured-output-schema-builder",
+      "markdown-previewer",
+    ],
+    input: ["text", "markdown", "number"],
+    output: ["text", "json", "file"],
+    availability: "available",
+    isNew: true,
+    isFeatured: true,
+    addedAt: "2026-08-28",
+  }),
 ];
 
 export function getCategoryById(id: string) {
