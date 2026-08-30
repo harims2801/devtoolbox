@@ -23,6 +23,7 @@ const defaults: PasswordOptions = {
   symbols: true,
   excludeAmbiguous: true,
   exclusions: "",
+  inclusions: "",
 };
 
 export function PasswordGeneratorTool() {
@@ -128,8 +129,28 @@ export function PasswordGeneratorTool() {
           value={options.exclusions}
         />
       </label>
+      <label className="block text-sm font-medium">
+        Required custom inclusions
+        <input
+          aria-describedby="password-inclusions-help"
+          aria-label="Required custom inclusions"
+          className="bg-background mt-2 h-10 w-full rounded-md border px-3 font-mono"
+          onChange={(event) => update("inclusions", event.target.value)}
+          placeholder={'For example: @, #, ","'}
+          value={options.inclusions}
+        />
+      </label>
+      <p
+        className="text-muted-foreground -mt-3 text-xs leading-5"
+        id="password-inclusions-help"
+      >
+        Enter comma-separated characters that must appear in every password. To
+        require a comma, enter <code>&quot;,&quot;</code> or{" "}
+        <code>&apos;,&apos;</code>. Each entry must be one character or Unicode
+        symbol.
+      </p>
       <p className="text-muted-foreground text-xs leading-5">
-        Every enabled set contributes at least one character. Selection and
+        Every enabled set and custom inclusion is guaranteed. Selection and
         shuffling use Web Crypto with rejection sampling; passwords are never
         saved or logged.
       </p>
@@ -213,7 +234,7 @@ export function PasswordGeneratorTool() {
         {
           question: "How is randomness generated?",
           answer:
-            "The browser's cryptographic random-number generator supplies bytes. Rejection sampling avoids modulo bias, and every enabled set is guaranteed to appear.",
+            "The browser's cryptographic random-number generator supplies bytes. Rejection sampling avoids modulo bias, and every enabled set and custom inclusion is guaranteed to appear.",
         },
         {
           question: "Are passwords stored?",
@@ -226,7 +247,9 @@ export function PasswordGeneratorTool() {
       instructions={
         <ol className="list-decimal space-y-2 pl-5">
           <li>Choose length, batch size, and required character sets.</li>
-          <li>Remove ambiguous or custom-excluded characters.</li>
+          <li>
+            Remove unwanted characters and add any required custom symbols.
+          </li>
           <li>Review the estimate and warnings, then generate.</li>
           <li>
             Copy one password or export the batch, then store it securely.

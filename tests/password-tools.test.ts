@@ -3,6 +3,7 @@ import {
   AMBIGUOUS_PASSWORD_CHARACTERS,
   analyzePasswordOptions,
   generatePasswords,
+  parsePasswordInclusions,
   type PasswordOptions,
 } from "@/lib/password-tools";
 
@@ -41,6 +42,64 @@ describe("password tools", () => {
     const [value] = generatePasswords(base, deterministicSource());
     for (const excluded of AMBIGUOUS_PASSWORD_CHARACTERS + base.exclusions)
       expect(value).not.toContain(excluded);
+  });
+  it("parses comma-separated inclusions including quoted comma characters", () => {
+    expect(parsePasswordInclusions("@, #, \",\", '&', 🔐")).toEqual([
+      "@",
+      "#",
+      ",",
+      "&",
+      "🔐",
+    ]);
+    expect(parsePasswordInclusions("  ")).toEqual([]);
+  });
+  it("guarantees every custom inclusion in every generated password", () => {
+    const values = generatePasswords(
+      { ...base, count: 5, exclusions: "", inclusions: '@, #, ",", 🔐' },
+      deterministicSource(),
+    );
+    for (const value of values)
+      for (const required of ["@", "#", ",", "🔐"])
+        expect(value).toContain(required);
+  });
+  it("lets an inclusion satisfy its enabled character category", () => {
+    const [value] = generatePasswords(
+      {
+        ...base,
+        length: 4,
+        count: 1,
+        excludeAmbiguous: false,
+        exclusions: "",
+        inclusions: "@",
+      },
+      deterministicSource(),
+    );
+    expect(Array.from(value!)).toHaveLength(4);
+    expect(value).toContain("@");
+    expect(value).toMatch(/[A-Z]/);
+    expect(value).toMatch(/[a-z]/);
+    expect(value).toMatch(/[0-9]/);
+  });
+  it("rejects conflicting, duplicate, malformed, and multi-character inclusions", () => {
+    expect(() =>
+      generatePasswords(
+        { ...base, exclusions: "@", inclusions: "@" },
+        deterministicSource(),
+      ),
+    ).toThrow(/also excluded/);
+    expect(() => parsePasswordInclusions("@, @")).toThrow(/duplicated/);
+    expect(() => parsePasswordInclusions("@, ")).toThrow(/empty entries/);
+    expect(() => parsePasswordInclusions('","')).not.toThrow();
+    expect(() => parsePasswordInclusions('", ')).toThrow(/unclosed quote/);
+    expect(() => parsePasswordInclusions("ab")).toThrow(/exactly one/);
+  });
+  it("rejects lengths that cannot fit all custom inclusions and remaining sets", () => {
+    expect(() =>
+      generatePasswords(
+        { ...base, length: 4, inclusions: "@, #" },
+        deterministicSource(),
+      ),
+    ).toThrow(/2 custom inclusions and 3 remaining/);
   });
   it("rejects impossible configurations and batch limits", () => {
     expect(() =>
