@@ -29,32 +29,34 @@ export function ToolCard({
   return (
     <article
       className={cn(
-        "group bg-card text-card-foreground hover:border-foreground/20 flex flex-col rounded-xl border p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md",
+        "group bg-card text-card-foreground hover:border-foreground/20 relative flex cursor-pointer flex-col rounded-xl border p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md",
         compact ? "min-h-56" : "min-h-64",
       )}
     >
+      <Link
+        aria-label={`Open ${name}`}
+        className="focus-visible:ring-ring absolute inset-0 z-10 rounded-xl focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+        href={route}
+      />
       <div className="flex items-start justify-between gap-3">
         <div className="bg-muted/50 rounded-lg border p-2.5">
           <Icon aria-hidden="true" className="size-5" />
         </div>
         <div className="flex items-center gap-1">
-          <FavoriteButton toolId={tool.id} toolName={name} />
+          <FavoriteButton
+            className="relative z-20"
+            toolId={tool.id}
+            toolName={name}
+          />
           <ArrowUpRight
             aria-hidden="true"
-            className="text-muted-foreground size-4"
+            className="text-muted-foreground pointer-events-none size-4"
           />
         </div>
       </div>
       <div className="mt-5">
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className="font-semibold tracking-tight">
-            <Link
-              className="focus-visible:outline-ring rounded-sm hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
-              href={route}
-            >
-              {name}
-            </Link>
-          </h3>
+          <h3 className="font-semibold tracking-tight">{name}</h3>
           {isNew ? (
             <span className="bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-[10px] font-semibold">
               NEW
