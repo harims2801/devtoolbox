@@ -18,11 +18,12 @@ export default function PrivacyPage() {
         </p>
         <h2 className="text-xl font-semibold">Analytics choice</h2>
         <p>
-          Analytics is limited to counts for page views, tool opens, and generic
-          actions. It excludes input, output, filenames, hostnames, tokens,
-          hashes, decoded data, logs, manifests, and environment variables. Do
-          Not Track disables analytics where supported, and no fingerprinting is
-          used.
+          Analytics uses Vercel Web Analytics plus privacy-limited internal
+          counts for page views, tool opens, and generic actions. It excludes
+          input, output, filenames, hostnames, tokens, hashes, decoded data,
+          logs, manifests, and environment variables. Your preference below and
+          browser Do Not Track setting prevent events from being sent, and no
+          fingerprinting is used.
         </p>
         <AnalyticsPreference />
         <h2 className="text-xl font-semibold">Offline caching</h2>

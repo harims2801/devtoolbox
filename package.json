@@ -1,3 +1,6 @@
+Total output lines: 6239
+
+c1acebae51bf0888c75571ea80a162f105d80bdc
 {
   "name": "devtoolbox",
   "version": "0.1.0",
@@ -22,6 +25,7 @@
     "@radix-ui/react-dialog": "^1.1.20",
     "@radix-ui/react-slot": "^1.3.0",
     "@radix-ui/react-tabs": "^1.1.18",
+    "@vercel/analytics": "^2.0.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.25.0",
