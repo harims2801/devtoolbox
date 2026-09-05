@@ -5,52 +5,38 @@ import { useRef, useState } from "react";
 
 import styles from "./kau-cow.module.css";
 
-type AudioContextConstructor = typeof AudioContext;
-
-function getAudioContext(): AudioContextConstructor | undefined {
-  return window.AudioContext;
-}
-
-export function playCowSound() {
-  const AudioContextClass = getAudioContext();
-  if (!AudioContextClass) return;
-
-  const context = new AudioContextClass();
-  const start = context.currentTime;
-
-  [0, 0.72].forEach((offset, index) => {
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
-    oscillator.type = "sawtooth";
-    oscillator.frequency.setValueAtTime(index ? 112 : 122, start + offset);
-    oscillator.frequency.exponentialRampToValueAtTime(
-      index ? 72 : 78,
-      start + offset + 0.58,
-    );
-    gain.gain.setValueAtTime(0.0001, start + offset);
-    gain.gain.exponentialRampToValueAtTime(0.16, start + offset + 0.04);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + offset + 0.64);
-    oscillator.connect(gain);
-    gain.connect(context.destination);
-    oscillator.start(start + offset);
-    oscillator.stop(start + offset + 0.66);
-  });
-
-  window.setTimeout(() => void context.close(), 1600);
-}
-
 export function KauCow() {
   const [announcement, setAnnouncement] = useState("");
+  const audio = useRef<HTMLAudioElement>(null);
+  const remainingPlays = useRef(0);
   const announcementTimer = useRef<number | undefined>(undefined);
 
+  function playFromStart() {
+    if (!audio.current) return;
+    audio.current.currentTime = 0;
+    void audio.current.play().catch(() => {
+      remainingPlays.current = 0;
+      setAnnouncement("Moo sound could not play.");
+    });
+  }
+
   function moo() {
-    playCowSound();
+    if (!audio.current) return;
+    audio.current.pause();
+    remainingPlays.current = 1;
+    playFromStart();
     setAnnouncement("Moo moo!");
     window.clearTimeout(announcementTimer.current);
     announcementTimer.current = window.setTimeout(
       () => setAnnouncement(""),
-      1800,
+      6000,
     );
+  }
+
+  function replayOnce() {
+    if (remainingPlays.current !== 1) return;
+    remainingPlays.current = 0;
+    playFromStart();
   }
 
   return (
@@ -74,6 +60,14 @@ export function KauCow() {
           width={78}
         />
       </button>
+      <audio
+        aria-hidden="true"
+        data-testid="kau-moo-audio"
+        onEnded={replayOnce}
+        preload="auto"
+        ref={audio}
+        src="/kau/cow-moo.m4a"
+      />
       <span aria-live="polite" className="sr-only">
         {announcement}
       </span>
