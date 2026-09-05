@@ -15,11 +15,6 @@
   animation: kau-cross-header 9s linear infinite;
 }
 
-.runner:hover,
-.runner:focus-visible {
-  animation-play-state: paused;
-}
-
 .runner:active .cow {
   transform: rotate(-4deg) scale(1.08);
 }
