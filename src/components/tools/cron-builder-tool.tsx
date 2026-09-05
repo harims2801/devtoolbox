@@ -19,18 +19,27 @@ import {
   explainCron,
   nextCronRuns,
   parseCron,
-  simpleCronFields,
 } from "@/lib/cron-tools";
 
 const defaultExpression = "0 9 * * 1-5";
+type BuilderFields = [string, string, string, string, string];
+
+function getBuilderFields(expression: string): BuilderFields | undefined {
+  const parts = expression.trim().split(/\s+/);
+  return parts.length === 5 ? (parts as BuilderFields) : undefined;
+}
 
 export function CronBuilderTool() {
   const tool = getToolById("cron-expression-builder");
   if (!tool) throw new Error("Cron builder metadata is missing");
-  const [expression, setExpression] = useState(defaultExpression);
+  const [schedule, setSchedule] = useState(() => ({
+    expression: defaultExpression,
+    submitted: defaultExpression,
+    builderFields: getBuilderFields(defaultExpression)!,
+  }));
   const [timeZone, setTimeZone] = useState("UTC");
-  const [submitted, setSubmitted] = useState(defaultExpression);
   const [error, setError] = useState("");
+  const { builderFields, expression, submitted } = schedule;
 
   const result = useMemo(() => {
     try {
@@ -46,20 +55,15 @@ export function CronBuilderTool() {
       };
     }
   }, [submitted, timeZone]);
-  const simple = useMemo(() => {
-    try {
-      return simpleCronFields(expression);
-    } catch {
-      return undefined;
-    }
-  }, [expression]);
-
   function evaluate() {
     try {
       const normalized = parseCron(expression).expression;
       nextCronRuns(normalized, { timeZone, count: 1 });
-      setExpression(normalized);
-      setSubmitted(normalized);
+      setSchedule({
+        expression: normalized,
+        submitted: normalized,
+        builderFields: getBuilderFields(normalized)!,
+      });
       setError("");
     } catch (caught) {
       setError(
@@ -69,11 +73,12 @@ export function CronBuilderTool() {
   }
 
   function updateBuilder(index: number, value: string) {
-    const parts = simple ? [...simple] : ["*", "*", "*", "*", "*"];
-    parts[index] = value.trim() || "*";
-    const next = parts.join(" ");
-    setExpression(next);
-    setSubmitted(next);
+    setSchedule((current) => {
+      const fields = [...current.builderFields] as BuilderFields;
+      fields[index] = value;
+      const next = fields.map((field) => field.trim() || "*").join(" ");
+      return { expression: next, submitted: next, builderFields: fields };
+    });
     setError("");
   }
 
@@ -91,7 +96,12 @@ export function CronBuilderTool() {
         className="bg-background focus-visible:ring-ring mt-2 h-12 w-full rounded-md border px-3 font-mono text-lg outline-none focus-visible:ring-2"
         id="cron-expression"
         onChange={(event) => {
-          setExpression(event.target.value);
+          const next = event.target.value;
+          setSchedule((current) => ({
+            ...current,
+            expression: next,
+            builderFields: getBuilderFields(next) ?? current.builderFields,
+          }));
           setError("");
         }}
         spellCheck={false}
@@ -117,8 +127,11 @@ export function CronBuilderTool() {
             <Button
               key={value}
               onClick={() => {
-                setExpression(value);
-                setSubmitted(value);
+                setSchedule({
+                  expression: value,
+                  submitted: value,
+                  builderFields: getBuilderFields(value)!,
+                });
                 setError("");
               }}
               size="sm"
@@ -132,14 +145,7 @@ export function CronBuilderTool() {
       </div>
 
       <div className="mt-6 border-t pt-5">
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-sm font-medium">Visual builder</p>
-          {!simple ? (
-            <p className="text-muted-foreground text-xs">
-              Complex expression — edit manually or reset a field below.
-            </p>
-          ) : null}
-        </div>
+        <p className="text-sm font-medium">Visual builder</p>
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           {CRON_FIELDS.map((field, index) => (
             <label className="text-muted-foreground text-xs" key={field.name}>
@@ -149,7 +155,7 @@ export function CronBuilderTool() {
                 className="bg-background text-foreground mt-1 h-10 w-full rounded-md border px-3 font-mono"
                 onChange={(event) => updateBuilder(index, event.target.value)}
                 placeholder={`${field.min}-${field.max} or *`}
-                value={simple?.[index] ?? ""}
+                value={builderFields[index]}
               />
             </label>
           ))}
@@ -275,15 +281,21 @@ export function CronBuilderTool() {
           </Button>
           <ExampleButton
             onLoad={() => {
-              setExpression(defaultExpression);
-              setSubmitted(defaultExpression);
+              setSchedule({
+                expression: defaultExpression,
+                submitted: defaultExpression,
+                builderFields: getBuilderFields(defaultExpression)!,
+              });
               setError("");
             }}
           />
           <ResetButton
             onReset={() => {
-              setExpression("* * * * *");
-              setSubmitted("* * * * *");
+              setSchedule({
+                expression: "* * * * *",
+                submitted: "* * * * *",
+                builderFields: ["*", "*", "*", "*", "*"],
+              });
               setTimeZone("UTC");
               setError("");
             }}
