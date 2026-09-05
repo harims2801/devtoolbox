@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { Blocks } from "lucide-react";
 
+import { KauCow } from "@/components/layout/kau-cow";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { SearchButton } from "@/components/shared/search-button";
 import { ThemeSelector } from "@/components/shared/theme-selector";
+import { env } from "@/config/env";
 import { mainNavigation } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 
@@ -15,6 +17,7 @@ export function SiteHeader() {
           <Blocks aria-hidden="true" className="size-5" />
           <span>{siteConfig.name}</span>
         </Link>
+        {env.NEXT_PUBLIC_ENABLE_KAU_COW ? <KauCow /> : null}
         <div className="flex items-center gap-2">
           <nav
             aria-label="Primary navigation"

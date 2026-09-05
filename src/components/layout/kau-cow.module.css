@@ -1,0 +1,114 @@
+.track {
+  display: none;
+}
+
+.runner {
+  position: absolute;
+  top: 0.2rem;
+  left: -5.5rem;
+  z-index: 1;
+  width: 5.25rem;
+  height: 3.75rem;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  animation: kau-cross-header 9s linear infinite;
+}
+
+.runner:hover,
+.runner:focus-visible {
+  animation-play-state: paused;
+}
+
+.runner:active .cow {
+  transform: rotate(-4deg) scale(1.08);
+}
+
+.cow {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 4.9rem;
+  height: auto;
+  filter: drop-shadow(0 0.125rem 0.16rem rgb(0 0 0 / 20%));
+  animation: kau-gallop 0.34s ease-in-out infinite alternate;
+}
+
+.bubble {
+  position: absolute;
+  top: 0;
+  right: 0.1rem;
+  z-index: 2;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--background);
+  padding: 0.12rem 0.42rem;
+  color: var(--foreground);
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.1;
+  box-shadow: 0 0.1rem 0.35rem rgb(0 0 0 / 12%);
+}
+
+.bubble::after {
+  position: absolute;
+  right: 0.55rem;
+  bottom: -0.23rem;
+  width: 0.38rem;
+  height: 0.38rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--background);
+  content: "";
+  transform: rotate(45deg);
+}
+
+@keyframes kau-cross-header {
+  0%,
+  8% {
+    left: -5.5rem;
+  }
+
+  76%,
+  92% {
+    left: calc(100cqw - 5.25rem);
+  }
+
+  100% {
+    left: calc(100cqw + 0.25rem);
+  }
+}
+
+@keyframes kau-gallop {
+  from {
+    transform: rotate(-2deg) translateY(0.12rem);
+  }
+
+  to {
+    transform: rotate(2deg) translateY(-0.14rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .runner {
+    right: 0.5rem;
+    left: auto;
+    animation: none;
+  }
+
+  .cow {
+    animation: none;
+  }
+}
+
+@media (min-width: 48rem) {
+  .track {
+    position: relative;
+    display: block;
+    min-width: 7rem;
+    flex: 1 1 auto;
+    align-self: stretch;
+    overflow: hidden;
+    container-type: inline-size;
+  }
+}

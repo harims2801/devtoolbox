@@ -42,6 +42,9 @@ cp .env.example .env.local
 The default local configuration uses `http://localhost:3000`. Set `NEXT_PUBLIC_APP_URL` to the
 canonical production URL when deploying.
 
+Set `NEXT_PUBLIC_ENABLE_KAU_COW=true` to enable the removable animated “Kau mode” in the
+desktop header. Leave it unset or set it to `false` to remove the cow, speech cloud, and sound.
+
 ## Development
 
 ```bash
