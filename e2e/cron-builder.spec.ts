@@ -24,3 +24,24 @@ test("rejects invalid fields and loads presets", async ({ page }) => {
     "0 0 1 * *",
   );
 });
+
+test("preserves visual builder fields across sequential edits", async ({
+  page,
+}) => {
+  await page.goto("/tools/cron-builder");
+  await page.getByRole("button", { name: "Reset" }).click();
+
+  await page.getByLabel("Builder Minute").filter({ visible: true }).fill("5");
+  await page.getByLabel("Builder Hour").filter({ visible: true }).fill("44");
+  await expect(page.locator("#cron-expression:visible")).toHaveValue(
+    "5 44 * * *",
+  );
+  await expect(
+    page.getByLabel("Builder Minute").filter({ visible: true }),
+  ).toHaveValue("5");
+
+  await page.getByLabel("Builder Hour").filter({ visible: true }).fill("2");
+  await expect(page.locator("#cron-expression:visible")).toHaveValue(
+    "5 2 * * *",
+  );
+});

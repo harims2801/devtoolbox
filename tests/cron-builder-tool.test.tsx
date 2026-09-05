@@ -32,14 +32,44 @@ describe("CronBuilderTool", () => {
     );
   });
 
-  it("keeps a simple visual field synchronized", () => {
+  it("preserves every visual field across sequential edits", () => {
     render(<CronBuilderTool />);
-    fireEvent.click(screen.getAllByRole("button", { name: /^Daily$/ })[0]!);
+    fireEvent.click(screen.getAllByRole("button", { name: "Reset" })[0]!);
+
     fireEvent.change(screen.getAllByLabelText("Builder Minute")[0]!, {
-      target: { value: "30" },
+      target: { value: "5" },
+    });
+    fireEvent.change(screen.getAllByLabelText("Builder Hour")[0]!, {
+      target: { value: "2" },
+    });
+    fireEvent.change(screen.getAllByLabelText("Builder Day of month")[0]!, {
+      target: { value: "10" },
     });
     expect(
       screen.getAllByLabelText("Standard Unix cron expression")[0],
-    ).toHaveValue("30 0 * * *");
+    ).toHaveValue("5 2 10 * *");
+    expect(screen.getAllByLabelText("Builder Minute")[0]).toHaveValue("5");
+    expect(screen.getAllByLabelText("Builder Hour")[0]).toHaveValue("2");
+  });
+
+  it("retains other visual values while a field is invalid and corrected", () => {
+    render(<CronBuilderTool />);
+    fireEvent.click(screen.getAllByRole("button", { name: "Reset" })[0]!);
+    const minute = screen.getAllByLabelText("Builder Minute")[0]!;
+    const hour = screen.getAllByLabelText("Builder Hour")[0]!;
+
+    fireEvent.change(minute, { target: { value: "5" } });
+    fireEvent.change(hour, { target: { value: "44" } });
+    expect(
+      screen.getAllByLabelText("Standard Unix cron expression")[0],
+    ).toHaveValue("5 44 * * *");
+    expect(minute).toHaveValue("5");
+    expect(hour).toHaveValue("44");
+
+    fireEvent.change(hour, { target: { value: "2" } });
+    expect(
+      screen.getAllByLabelText("Standard Unix cron expression")[0],
+    ).toHaveValue("5 2 * * *");
+    expect(minute).toHaveValue("5");
   });
 });
